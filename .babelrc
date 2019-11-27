@@ -1,0 +1,14 @@
+{
+  "comments": false,
+  "presets": [
+    [
+      "@babel/react",
+      {
+        "corejs": 3,
+        "useBuiltIns": "usage",
+        "modules": false
+      }
+    ]
+  ],
+  "plugins": ["@babel/proposal-class-properties", "babel-plugin-styled-components"]
+}
