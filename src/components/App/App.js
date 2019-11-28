@@ -26,7 +26,7 @@ export const App = () => {
     { id: 17, x: 3, y: 3, value: 131072 }
   ]
 
-  return (g
+  return (
     <>
       <GlobalStyles />
       <Content>
