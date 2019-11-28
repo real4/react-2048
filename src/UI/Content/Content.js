@@ -4,13 +4,12 @@ import styled from 'styled-components'
 
 const Main = styled.main`
   display: grid;
-  grid-template-columns: 1fr [content] 2fr 1fr;
+  grid-template-columns: 1fr;
   grid-template-rows: 1fr;
   padding: 20px 0;
 `
 
 const Layout = styled.div`
-  grid-area: content;
   justify-self: center;
   align-self: center;
 `
@@ -22,5 +21,9 @@ export const Content = ({ children }) => (
 )
 
 Content.propTypes = {
-  children: PropTypes.element.isRequired
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node,
+    PropTypes.string
+  ]).isRequired
 }
