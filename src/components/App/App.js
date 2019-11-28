@@ -4,7 +4,7 @@ import { GlobalStyles } from '../../UI/GlobalStyles'
 import { Content } from '../../UI/Content'
 import { Field } from '../../UI/Field'
 
-import { gameSetting } from '../../utils/constants'
+import { gameSettings } from '../../utils/constants'
 
 export const App = () => {
   const cells = [
@@ -26,12 +26,12 @@ export const App = () => {
     { id: 17, x: 3, y: 3, value: 131072 }
   ]
 
-  return (
+  return (g
     <>
       <GlobalStyles />
       <Content>
         <h1>2048</h1>
-        <Field settings={gameSetting} cells={cells} />
+        <Field settings={gameSettings} cells={cells} />
       </Content>
     </>
   )
