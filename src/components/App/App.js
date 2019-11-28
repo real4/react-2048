@@ -6,9 +6,11 @@ import { Field } from '../../UI/Field'
 
 import { gameSettings } from '../../utils/constants'
 
+import { initCells } from '../../game/initCells'
+
 export class App extends Component {
   state = {
-    cells: []
+    cells: initCells()
   }
 
   render() {
