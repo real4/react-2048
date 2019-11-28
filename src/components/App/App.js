@@ -1,7 +1,13 @@
 import React from 'react'
 
-import { H1 } from '../../UI/H1'
+import { GlobalStyles } from '../../UI/GlobalStyles'
+import { Content } from '../../UI/Content'
 
-export const App = () => {
-  return <H1>Hello world</H1>
-}
+export const App = () => (
+  <>
+    <GlobalStyles />
+    <Content>
+      <h1>2048</h1>
+    </Content>
+  </>
+)
