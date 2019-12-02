@@ -10,8 +10,7 @@ const Main = styled.main`
 `
 
 const Layout = styled.div`
-  justify-self: center;
-  align-self: center;
+  margin: 0 auto;
 `
 
 export const Content = ({ children }) => (
