@@ -30,6 +30,7 @@ const Playground = styled(Background)`
   top: 0;
   left: 0;
   background-color: transparent;
+  user-select: none;
 `
 
 const Cell = styled(BackgroundCell)`

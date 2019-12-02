@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 
-import { GlobalStyles } from '../../UI/GlobalStyles'
-import { Content } from '../../UI/Content'
-import { Field } from '../../UI/Field'
+import { GlobalStyles } from '../../theme/GlobalStyles'
+import { Content } from '../Content'
+import { Field } from '../Field'
 
 import { gameSettings } from '../../utils/constants'
 
