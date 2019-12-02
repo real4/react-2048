@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
+import uniqid from 'uniqid'
 
 import { getCellProps } from '../../utils/getCellProps'
 
@@ -52,30 +53,31 @@ const calculateFieldSize = (gameSize, cellSize, spaceBetween) =>
 export const Field = ({ settings, cells }) => {
   const { gameSize, cellSize, spaceBetween } = settings
   const fieldSize = calculateFieldSize(gameSize, cellSize, spaceBetween)
+  const playgroundCells = []
 
-  const createBackgroundCells = () => {
-    return Array.from(Array(gameSize ** 2), (_, i) => i).map((i) => <BackgroundCell key={i} />)
-  }
+  const backgroundCells = cells.map((row) =>
+    row.map((item) => {
+      if (typeof item === 'object') {
+        const { color, background, fontSize } = getCellProps(item.value)
 
-  const createCells = () => {
-    return cells.map(({ id, x, y, value }) => {
-      const { color, background, fontSize } = getCellProps(value)
+        playgroundCells.push(
+          <Cell
+            key={item.id}
+            x={item.x}
+            y={item.y}
+            cellSize={cellSize}
+            color={color}
+            background={background}
+            fontSize={fontSize}
+          >
+            {item.value}
+          </Cell>
+        )
+      }
 
-      return (
-        <Cell
-          key={id}
-          x={x}
-          y={y}
-          cellSize={cellSize}
-          color={color}
-          background={background}
-          fontSize={fontSize}
-        >
-          {value}
-        </Cell>
-      )
+      return <BackgroundCell key={uniqid()} />
     })
-  }
+  )
 
   return (
     <FieldWrapper>
@@ -85,7 +87,7 @@ export const Field = ({ settings, cells }) => {
         cellSize={cellSize}
         spaceBetween={spaceBetween}
       >
-        {createBackgroundCells()}
+        {backgroundCells}
       </Background>
       <Playground
         size={fieldSize}
@@ -93,7 +95,7 @@ export const Field = ({ settings, cells }) => {
         cellSize={cellSize}
         spaceBetween={spaceBetween}
       >
-        {createCells()}
+        {playgroundCells}
       </Playground>
     </FieldWrapper>
   )
@@ -105,7 +107,7 @@ Field.propTypes = {
     cellSize: PropTypes.number,
     spaceBetween: PropTypes.number
   }),
-  cells: PropTypes.arrayOf(PropTypes.object)
+  cells: PropTypes.arrayOf(PropTypes.array)
 }
 
 Field.defaultProps = {
