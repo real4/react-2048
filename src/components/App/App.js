@@ -6,7 +6,7 @@ import { Field } from '../Field'
 
 import { gameSettings, directionsCell } from '../../utils/constants'
 
-import { initCells } from '../../game/initCells'
+import { initCells, moveCells } from '../../game'
 
 export class App extends Component {
   state = {
@@ -14,10 +14,14 @@ export class App extends Component {
   }
 
   codeDirections = {
-    ['KeyW' || 'ArrowUp']: directionsCell.UP,
-    ['KeyS' || 'ArrowDown']: directionsCell.DOWN,
-    ['KeyD' || 'ArrowRight']: directionsCell.RIGHT,
-    ['KeyA' || 'ArrowLeft']: directionsCell.LEFT
+    KeyW: directionsCell.UP,
+    ArrowUp: directionsCell.UP,
+    KeyS: directionsCell.DOWN,
+    ArrowDown: directionsCell.DOWN,
+    KeyD: directionsCell.RIGHT,
+    ArrowRight: directionsCell.RIGHT,
+    KeyA: directionsCell.LEFT,
+    ArrowLeft: directionsCell.LEFT
   }
 
   componentDidMount() {
@@ -34,7 +38,9 @@ export class App extends Component {
         event.code
       )
     ) {
-      console.log('CODE:', event.code)
+      this.setState(({ cells }) => ({
+        cells: moveCells(cells, this.codeDirections[event.code])
+      }))
     }
   }
 
