@@ -1,4 +1,6 @@
-function updateCell(cells, x, y) {
+import { rotateMatrix } from '../../utils/rotateMatrix'
+
+function updateCell(x, y, cells) {
   const matrix = [...cells]
 
   for (let step = x - 1, first = x; step >= 0; step--) {
@@ -24,11 +26,15 @@ function arrayForEach(matrix, func) {
   )
 }
 
-export const moveCells = (cells) => {
+export const moveCells = (cells, direction) => {
   let matrix = [...cells]
 
+  rotateMatrix(matrix, direction)
+
   // update matrix cells
-  arrayForEach(matrix, (x, y, matrix) => updateCell(matrix, x, y))
+  arrayForEach(matrix, updateCell)
+
+  rotateMatrix(matrix, direction, true)
 
   // update cell props
   arrayForEach(matrix, (x, y) => {
