@@ -27,7 +27,7 @@ function arrayForEach(matrix, func) {
 }
 
 export const moveCells = (cells, direction) => {
-  let matrix = [...cells]
+  const matrix = [...cells]
 
   rotateMatrix(matrix, direction)
 

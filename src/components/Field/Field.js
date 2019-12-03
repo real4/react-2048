@@ -1,7 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import uniqid from 'uniqid'
+
+import { gameSettings } from '../../utils/constants'
 
 import { getCellProps } from '../../utils/getCellProps'
 
@@ -50,13 +51,17 @@ const Cell = styled(BackgroundCell)`
 const calculateFieldSize = (gameSize, cellSize, spaceBetween) =>
   cellSize * gameSize + spaceBetween * (gameSize + 1)
 
-export const Field = ({ settings, cells }) => {
-  const { gameSize, cellSize, spaceBetween } = settings
+export const Field = ({ cells }) => {
+  const { gameSize, cellSize, spaceBetween } = gameSettings
   const fieldSize = calculateFieldSize(gameSize, cellSize, spaceBetween)
   const playgroundCells = []
 
-  const backgroundCells = cells.map((row) =>
-    row.map((item) => {
+  const backgroundCells = Array.from(new Array(gameSettings.gameSize ** 2), (_, i) => (
+    <BackgroundCell key={i} />
+  ))
+
+  cells.forEach((row) =>
+    row.forEach((item) => {
       if (typeof item === 'object') {
         const { color, background, fontSize } = getCellProps(item.value)
 
@@ -74,8 +79,6 @@ export const Field = ({ settings, cells }) => {
           </Cell>
         )
       }
-
-      return <BackgroundCell key={uniqid()} />
     })
   )
 
