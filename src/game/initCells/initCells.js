@@ -7,8 +7,10 @@ export const initCells = () => {
 
   const cells = Array.from(Array(fieldSize), () => Array.from(Array(fieldSize), () => 0))
 
-  const x = [randomRange(0, fieldSize - 1), randomRange(0, fieldSize - 1)]
-  const y = [randomRange(0, fieldSize - 1), randomRange(0, fieldSize - 1)]
+  const randomCell = () => randomRange(0, fieldSize - 1)
+
+  const x = [randomCell(), randomCell()]
+  const y = [randomCell(), randomCell()]
 
   if (x[0] === x[1] && y[0] === y[1]) {
     x[1] = x[1] === 0 ? 1 : x[1] - 1
