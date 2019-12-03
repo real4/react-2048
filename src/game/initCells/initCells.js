@@ -3,12 +3,12 @@ import { randomRange } from '../../utils/randomRange'
 import { gameSettings } from '../../utils/constants'
 
 export const initCells = () => {
-  const cells = Array.from(Array(gameSettings.gameSize), () =>
-    Array.from(Array(gameSettings.gameSize), () => 0)
-  )
+  const { gameSize: fieldSize } = gameSettings
 
-  const x = [randomRange(0, 3), randomRange(0, 3)]
-  const y = [randomRange(0, 3), randomRange(0, 3)]
+  const cells = Array.from(Array(fieldSize), () => Array.from(Array(fieldSize), () => 0))
+
+  const x = [randomRange(0, fieldSize - 1), randomRange(0, fieldSize - 1)]
+  const y = [randomRange(0, fieldSize - 1), randomRange(0, fieldSize - 1)]
 
   if (x[0] === x[1] && y[0] === y[1]) {
     x[1] = x[1] === 0 ? 1 : x[1] - 1
