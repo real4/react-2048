@@ -1,4 +1,4 @@
-function updateCell(cells, x, y) {
+function updateCell(x, y, cells) {
   const matrix = [...cells]
 
   for (let step = x - 1, first = x; step >= 0; step--) {
@@ -28,7 +28,7 @@ export const moveCells = (cells) => {
   let matrix = [...cells]
 
   // update matrix cells
-  arrayForEach(matrix, (x, y, matrix) => updateCell(matrix, x, y))
+  arrayForEach(matrix, updateCell)
 
   // update cell props
   arrayForEach(matrix, (x, y) => {
