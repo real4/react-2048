@@ -44,6 +44,10 @@ export class App extends Component {
     }
   }
 
+  newGameHandler = () => {
+    this.setState({ cells: initCells() })
+  }
+
   render() {
     const { cells } = this.state
 
@@ -52,6 +56,9 @@ export class App extends Component {
         <GlobalStyles />
         <Content>
           <h1>2048</h1>
+          <button type="button" style={{ marginBottom: '20px' }} onClick={this.newGameHandler}>
+            New game
+          </button>
           <Field cells={cells} />
         </Content>
       </>
