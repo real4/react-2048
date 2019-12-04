@@ -24,8 +24,8 @@ const Background = styled.div`
 `
 
 const BackgroundCell = styled.div`
-  height: ${({ cellSize }) => cellSize}px;
   width: ${({ cellSize }) => cellSize}px;
+  height: ${({ cellSize }) => cellSize}px;
   border-radius: 5px;
   background-color: rgba(238, 228, 218, 0.35);
 `

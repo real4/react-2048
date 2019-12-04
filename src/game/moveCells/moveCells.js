@@ -1,4 +1,5 @@
 import { rotateMatrix } from '../../utils/rotateMatrix'
+import { cellStates } from '../../utils/constants'
 
 function updateCell(x, y, cells) {
   const matrix = [...cells]
@@ -6,6 +7,7 @@ function updateCell(x, y, cells) {
   for (let step = x - 1, first = x; step >= 0; step--) {
     if (matrix[y][step] === 0) {
       matrix[y][step] = matrix[y][first]
+      matrix[y][step].state = cellStates.MOVING
       matrix[y][first] = 0
 
       first = step
