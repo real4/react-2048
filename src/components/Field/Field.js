@@ -40,8 +40,6 @@ const Playground = styled(Background)`
 `
 
 const Cell = styled(BackgroundCell)`
-  /* grid-row-start: ${({ y }) => y + 1};
-  grid-column-start: ${({ x }) => x + 1}; */
   position: absolute;
   padding-top: ${({ cellSize, fontSize }) => cellSize / 2 - fontSize / 1.6}px;
   color: ${({ color }) => color};
