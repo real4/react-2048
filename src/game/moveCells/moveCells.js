@@ -27,14 +27,14 @@ function arrayForEach(matrix, func) {
 }
 
 export const moveCells = (cells, direction) => {
-  const matrix = [...cells]
+  let matrix = [...cells]
 
-  rotateMatrix(matrix, direction)
+  matrix = rotateMatrix(matrix, direction)
 
   // update matrix cells
   arrayForEach(matrix, updateCell)
 
-  rotateMatrix(matrix, direction, true)
+  matrix = rotateMatrix(matrix, direction, true)
 
   // update cell props
   arrayForEach(matrix, (x, y) => {

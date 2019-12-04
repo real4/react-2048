@@ -1,35 +1,21 @@
+import { rotateMatrix as flipMatrix } from 'rotate-matrix'
 import { directionsCell } from './constants'
 
-const flipMatrix = (matrix) => {
-  // reverse the rows
-  matrix = matrix.reverse()
-
-  // swap the symmetric elements
-  for (let i = 0; i < matrix.length; i++) {
-    for (let j = 0; j < i; j++) {
-      const temp = matrix[i][j]
-      matrix[i][j] = matrix[j][i]
-      matrix[j][i] = temp
-    }
-  }
-}
-
 export const rotateMatrix = (matrix, direction, from = false) => {
+  let newMatrix = [...matrix]
+
   if (!from) {
     switch (direction) {
       case directionsCell.UP:
-        flipMatrix(matrix)
-        flipMatrix(matrix)
-        flipMatrix(matrix)
+        newMatrix = flipMatrix(newMatrix, 3)
         break
 
       case directionsCell.DOWN:
-        flipMatrix(matrix)
+        newMatrix = flipMatrix(newMatrix)
         break
 
       case directionsCell.RIGHT:
-        flipMatrix(matrix)
-        flipMatrix(matrix)
+        newMatrix = flipMatrix(newMatrix, 2)
         break
 
       default:
@@ -38,24 +24,21 @@ export const rotateMatrix = (matrix, direction, from = false) => {
   } else {
     switch (direction) {
       case directionsCell.UP:
-        flipMatrix(matrix)
+        newMatrix = flipMatrix(newMatrix)
         break
 
       case directionsCell.DOWN:
-        flipMatrix(matrix)
-        flipMatrix(matrix)
-        flipMatrix(matrix)
+        newMatrix = flipMatrix(newMatrix, 3)
         break
 
       case directionsCell.RIGHT:
-        flipMatrix(matrix)
-        flipMatrix(matrix)
+        newMatrix = flipMatrix(newMatrix, 2)
         break
 
       default:
-        return matrix
+        return newMatrix
     }
   }
-
-  return matrix
+  
+  return newMatrix
 }
