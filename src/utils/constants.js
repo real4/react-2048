@@ -10,3 +10,10 @@ export const directionsCell = {
   LEFT: 'KEY_LEFT',
   RIGHT: 'KEY_RIGHT'
 }
+
+export const cellStates = {
+  STANDING: 'CELL_STANDING',
+  MOVING: 'CELL_MOVING',
+  ENLARGE: 'CELL_ENLARGE',
+  DESTROING: 'CELL_DESTROING'
+}

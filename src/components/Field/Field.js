@@ -15,6 +15,7 @@ const Background = styled.div`
   grid-template-columns: repeat(${({ gameSize }) => gameSize}, ${({ cellSize }) => cellSize}px);
   grid-template-rows: repeat(${({ gameSize }) => gameSize}, ${({ cellSize }) => cellSize}px);
   grid-gap: ${({ spaceBetween }) => spaceBetween}px;
+
   width: ${({ size }) => size}px;
   height: ${({ size }) => size}px;
   padding: ${({ spaceBetween }) => spaceBetween}px;
@@ -23,6 +24,8 @@ const Background = styled.div`
 `
 
 const BackgroundCell = styled.div`
+  width: ${({ cellSize }) => cellSize}px;
+  height: ${({ cellSize }) => cellSize}px;
   border-radius: 5px;
   background-color: rgba(238, 228, 218, 0.35);
 `
@@ -31,21 +34,24 @@ const Playground = styled(Background)`
   position: absolute;
   top: 0;
   left: 0;
+  display: flex;
   background-color: transparent;
   user-select: none;
 `
 
 const Cell = styled(BackgroundCell)`
-  grid-row-start: ${({ y }) => y + 1};
-  grid-column-start: ${({ x }) => x + 1};
-  width: ${({ cellSize }) => cellSize}px;
-  height: ${({ cellSize }) => cellSize}px;
+  position: absolute;
   padding-top: ${({ cellSize, fontSize }) => cellSize / 2 - fontSize / 1.6}px;
   color: ${({ color }) => color};
   background-color: ${({ background }) => background};
   font-size: ${({ fontSize }) => fontSize}px;
   font-weight: bold;
   text-align: center;
+  transform: translate(
+    ${({ x, cellSize, spaceBetween }) => cellSize * x + spaceBetween * x}px, 
+    ${({ y, cellSize, spaceBetween }) => cellSize * y + spaceBetween * y}px
+  );
+  transition: transform 0.2s;
 `
 
 const calculateFieldSize = (gameSize, cellSize, spaceBetween) =>
@@ -57,7 +63,7 @@ export const Field = ({ cells }) => {
   const playgroundCells = []
 
   const backgroundCells = Array.from(new Array(gameSettings.gameSize ** 2), (_, i) => (
-    <BackgroundCell key={i} />
+    <BackgroundCell key={i} cellSize={cellSize} />
   ))
 
   cells.forEach((row) =>
@@ -71,6 +77,7 @@ export const Field = ({ cells }) => {
             x={item.x}
             y={item.y}
             cellSize={cellSize}
+            spaceBetween={spaceBetween}
             color={color}
             background={background}
             fontSize={fontSize}
