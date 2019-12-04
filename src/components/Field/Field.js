@@ -48,7 +48,7 @@ const Cell = styled(BackgroundCell)`
   font-weight: bold;
   text-align: center;
   transform: translate(
-    ${({ x, cellSize, spaceBetween }) => cellSize * x + spaceBetween * x}px, 
+    ${({ x, cellSize, spaceBetween }) => cellSize * x + spaceBetween * x}px,
     ${({ y, cellSize, spaceBetween }) => cellSize * y + spaceBetween * y}px
   );
   transition: transform 0.2s;

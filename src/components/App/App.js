@@ -4,7 +4,7 @@ import { GlobalStyles } from '../../theme/GlobalStyles'
 import { Content } from '../Content'
 import { Field } from '../Field'
 
-import { gameSettings, directionsCell } from '../../utils/constants'
+import { directionsCell } from '../../utils/constants'
 
 import { initCells, moveCells } from '../../game'
 
@@ -52,7 +52,7 @@ export class App extends Component {
         <GlobalStyles />
         <Content>
           <h1>2048</h1>
-          <Field settings={gameSettings} cells={cells} />
+          <Field cells={cells} />
         </Content>
       </>
     )
