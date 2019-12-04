@@ -53,6 +53,7 @@ const Cell = styled(BackgroundCell)`
     ${({ x, cellSize, spaceBetween }) => cellSize * x + spaceBetween * x}px, 
     ${({ y, cellSize, spaceBetween }) => cellSize * y + spaceBetween * y}px
   );
+  transition: transform 0.2s;
 `
 
 const calculateFieldSize = (gameSize, cellSize, spaceBetween) =>

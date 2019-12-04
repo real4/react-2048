@@ -39,6 +39,6 @@ export const rotateMatrix = (matrix, direction, from = false) => {
         return newMatrix
     }
   }
-  
+
   return newMatrix
 }
