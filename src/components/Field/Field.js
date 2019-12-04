@@ -85,6 +85,23 @@ export const Field = ({ cells }) => {
             {item.value}
           </Cell>
         )
+
+        if (Object.prototype.hasOwnProperty.call(item, 'killingCell')) {
+          playgroundCells.push(
+            <Cell
+              key={item.killingCell.id}
+              x={item.killingCell.x}
+              y={item.killingCell.y}
+              cellSize={cellSize}
+              spaceBetween={spaceBetween}
+              color={color}
+              background={background}
+              fontSize={fontSize}
+            >
+              {item.value}
+            </Cell>
+          )
+        }
       }
     })
   )

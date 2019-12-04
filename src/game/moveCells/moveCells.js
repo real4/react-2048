@@ -4,13 +4,23 @@ import { cellStates } from '../../utils/constants'
 function updateCell(x, y, cells) {
   const matrix = [...cells]
 
-  for (let step = x - 1, first = x; step >= 0; step--) {
+  for (let step = x - 1, current = x; step >= 0; step--) {
     if (matrix[y][step] === 0) {
-      matrix[y][step] = matrix[y][first]
+      matrix[y][step] = matrix[y][current]
       matrix[y][step].state = cellStates.MOVING
-      matrix[y][first] = 0
+      matrix[y][current] = 0
 
-      first = step
+      current = step
+    } else if (matrix[y][step].value === matrix[y][current].value) {
+      matrix[y][step].state = cellStates.DESTROING
+      matrix[y][step] = {
+        ...matrix[y][current],
+        killingCell: matrix[y][step]
+      }
+      matrix[y][step].state = cellStates.ENLARGE
+      matrix[y][current] = 0
+
+      current = step
     }
   }
 
@@ -42,6 +52,11 @@ export const moveCells = (cells, direction) => {
   arrayForEach(matrix, (x, y) => {
     matrix[y][x].x = x
     matrix[y][x].y = y
+
+    if (Object.prototype.hasOwnProperty.call(matrix[y][x], 'killingCell')) {
+      matrix[y][x].killingCell.x = x
+      matrix[y][x].killingCell.y = y
+    }
   })
 
   return matrix
