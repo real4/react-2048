@@ -61,7 +61,7 @@ export const Field = ({ cells }) => {
   const { gameSize, cellSize, spaceBetween } = gameSettings
   const fieldSize = calculateFieldSize(gameSize, cellSize, spaceBetween)
   const playgroundCells = []
-
+  
   const backgroundCells = Array.from(new Array(gameSettings.gameSize ** 2), (_, i) => (
     <BackgroundCell key={i} cellSize={cellSize} />
   ))

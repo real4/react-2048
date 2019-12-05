@@ -8,6 +8,8 @@ import { directionsCell } from '../../utils/constants'
 
 import { initCells, moveCells, updateMergedCells } from '../../game'
 
+const waitAnimation = (time) => new Promise((resolve) => setTimeout(resolve, time))
+
 export class App extends Component {
   state = {
     cells: initCells()
@@ -29,22 +31,20 @@ export class App extends Component {
   }
 
   componentDidMount() {
-    document.addEventListener('keyup', () => (this.isKeyPressed = false))
+    document.addEventListener('keyup', this.keyUpHandler)
     document.addEventListener('keydown', this.keyDownHandler)
-    document.addEventListener('transitionstart', () => (this.isAnimated = true))
+    document.addEventListener('transitionend', this.transitionendHandler)
+    document.addEventListener('transitionstart', this.transitionstartHandler)
   }
 
   componentWillUnmount() {
-    document.removeEventListener('keyup')
-    document.removeEventListener('keydown')
-    document.removeEventListener('transitionstart')
+    document.removeEventListener('keyup', this.keyUpHandler)
+    document.removeEventListener('keydown', this.keyDownHandler)
+    document.removeEventListener('transitionstart', this.transitionstartHandler)
+    document.removeEventListener('transitionend', this.transitionendHandler)
   }
 
-  composeActions = (cells) => {
-    return updateMergedCells(cells)
-  }
-
-  keyDownHandler = (event) => {
+  keyDownHandler = async (event) => {
     if (
       !this.isAnimated &&
       !this.isKeyPressed &&
@@ -52,32 +52,30 @@ export class App extends Component {
         event.code
       )
     ) {
-      this.setState(({ cells }) => ({ cells: moveCells(cells, this.codeDirections[event.code]) }))
+      this.setState(({ cells }) => ({
+        cells: moveCells(cells, this.codeDirections[event.code])
+      }))
 
-      this.startListenerTransitionend()
+      await waitAnimation(100)
+
+      this.setState(({ cells }) => ({
+        cells: updateMergedCells(cells)
+      }))
     }
 
     this.isKeyPressed = true
   }
 
-  startListenerTransitionend = () =>
-    new Promise((resolve) => {
-      document.addEventListener('transitionend', () => this.transitionedHandler(resolve))
-    })
+  keyUpHandler = () => (this.isKeyPressed = false)
 
-  transitionedHandler = (resolve) => {
-    this.isAnimated = false
+  transitionstartHandler = () => (this.isAnimated = true)
 
-    this.setState(({ cells }) => ({ cells: this.composeActions(cells) }))
-
-    document.removeEventListener('transitionend')
-
-    resolve()
-  }
+  transitionendHandler = () => (this.isAnimated = false)
 
   newGameHandler = () => {
     this.isAnimated = false
     this.isKeyPressed = false
+
     this.setState({ cells: initCells() })
   }
 

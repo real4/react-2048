@@ -11,7 +11,10 @@ function updateCell(x, y, cells) {
       matrix[y][current] = 0
 
       current = step
-    } else if (matrix[y][step].value === matrix[y][current].value) {
+    } else if (
+      matrix[y][step].value === matrix[y][current].value &&
+      (matrix[y][step].state === cellStates.STANDING || matrix[y][step].state === cellStates.MOVING)
+    ) {
       matrix[y][step].state = cellStates.DESTROING
       matrix[y][step] = {
         ...matrix[y][current],
@@ -21,6 +24,8 @@ function updateCell(x, y, cells) {
       matrix[y][current] = 0
 
       current = step
+    } else {
+      break
     }
   }
 
