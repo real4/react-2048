@@ -8,7 +8,7 @@ export const updateMergedCells = (cells) => {
   matrix = matrix.map((arr) =>
     arr.map((item) => {
       if (typeof item === 'object') {
-        if (item.state === cellStates.MOVING) {
+        if (item.state === cellStates.MOVING || item.state === cellStates.ENLARGE) {
           isMovingCells = true
         }
 
