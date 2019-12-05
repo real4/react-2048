@@ -10,7 +10,8 @@ import { initCells, moveCells, updateMergedCells } from '../../game'
 
 export class App extends Component {
   state = {
-    cells: initCells()
+    cells: initCells(),
+    moving: false
   }
 
   codeDirections = {
@@ -26,29 +27,33 @@ export class App extends Component {
 
   componentDidMount() {
     document.addEventListener('keydown', this.keyDownHandler)
+    document.addEventListener('transitionend', this.transitionendHandler)
   }
 
   componentWillUnmount() {
     document.removeEventListener('keydown')
+    document.removeEventListener('transitionend')
   }
 
   composeActions = (cells, direction) => updateMergedCells(moveCells(cells, direction))
 
   keyDownHandler = (event) => {
     if (
+      !this.state.moving &&
       ['KeyW', 'ArrowUp', 'KeyS', 'ArrowDown', 'KeyD', 'ArrowRight', 'KeyA', 'ArrowLeft'].includes(
         event.code
       )
     ) {
       this.setState(({ cells }) => ({
-        cells: this.composeActions(cells, this.codeDirections[event.code])
+        cells: this.composeActions(cells, this.codeDirections[event.code]),
+        moving: true
       }))
     }
   }
 
-  newGameHandler = () => {
-    this.setState({ cells: initCells() })
-  }
+  transitionendHandler = () => this.setState({ moving: false })
+
+  newGameHandler = () => this.setState({ cells: initCells(), moving: false })
 
   render() {
     const { cells } = this.state
