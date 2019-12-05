@@ -48,7 +48,7 @@ const Cell = styled(BackgroundCell)`
   font-weight: bold;
   text-align: center;
   transform: translate(
-    ${({ x, cellSize, spaceBetween }) => cellSize * x + spaceBetween * x}px, 
+    ${({ x, cellSize, spaceBetween }) => cellSize * x + spaceBetween * x}px,
     ${({ y, cellSize, spaceBetween }) => cellSize * y + spaceBetween * y}px
   );
   transition: transform 0.2s;
@@ -85,6 +85,23 @@ export const Field = ({ cells }) => {
             {item.value}
           </Cell>
         )
+
+        if (item.killingCell != null) {
+          playgroundCells.push(
+            <Cell
+              key={item.killingCell.id}
+              x={item.killingCell.x}
+              y={item.killingCell.y}
+              cellSize={cellSize}
+              spaceBetween={spaceBetween}
+              color={color}
+              background={background}
+              fontSize={fontSize}
+            >
+              {item.value}
+            </Cell>
+          )
+        }
       }
     })
   )

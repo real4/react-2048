@@ -4,9 +4,9 @@ import { GlobalStyles } from '../../theme/GlobalStyles'
 import { Content } from '../Content'
 import { Field } from '../Field'
 
-import { gameSettings, directionsCell } from '../../utils/constants'
+import { directionsCell } from '../../utils/constants'
 
-import { initCells, moveCells } from '../../game'
+import { initCells, moveCells, updateMergedCells } from '../../game'
 
 export class App extends Component {
   state = {
@@ -32,6 +32,8 @@ export class App extends Component {
     document.removeEventListener('keydown')
   }
 
+  composeActions = (cells, direction) => updateMergedCells(moveCells(cells, direction))
+
   keyDownHandler = (event) => {
     if (
       ['KeyW', 'ArrowUp', 'KeyS', 'ArrowDown', 'KeyD', 'ArrowRight', 'KeyA', 'ArrowLeft'].includes(
@@ -39,9 +41,13 @@ export class App extends Component {
       )
     ) {
       this.setState(({ cells }) => ({
-        cells: moveCells(cells, this.codeDirections[event.code])
+        cells: this.composeActions(cells, this.codeDirections[event.code])
       }))
     }
+  }
+
+  newGameHandler = () => {
+    this.setState({ cells: initCells() })
   }
 
   render() {
@@ -52,7 +58,10 @@ export class App extends Component {
         <GlobalStyles />
         <Content>
           <h1>2048</h1>
-          <Field settings={gameSettings} cells={cells} />
+          <button type="button" style={{ marginBottom: '20px' }} onClick={this.newGameHandler}>
+            New game
+          </button>
+          <Field cells={cells} />
         </Content>
       </>
     )
