@@ -86,7 +86,7 @@ export const Field = ({ cells }) => {
           </Cell>
         )
 
-        if (Object.prototype.hasOwnProperty.call(item, 'killingCell')) {
+        if (item.killingCell != null) {
           playgroundCells.push(
             <Cell
               key={item.killingCell.id}

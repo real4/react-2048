@@ -6,7 +6,7 @@ import { Field } from '../Field'
 
 import { directionsCell } from '../../utils/constants'
 
-import { initCells, moveCells } from '../../game'
+import { initCells, moveCells, updateMergedCells } from '../../game'
 
 export class App extends Component {
   state = {
@@ -32,6 +32,8 @@ export class App extends Component {
     document.removeEventListener('keydown')
   }
 
+  composeActions = (cells, direction) => updateMergedCells(moveCells(cells, direction))
+
   keyDownHandler = (event) => {
     if (
       ['KeyW', 'ArrowUp', 'KeyS', 'ArrowDown', 'KeyD', 'ArrowRight', 'KeyA', 'ArrowLeft'].includes(
@@ -39,7 +41,7 @@ export class App extends Component {
       )
     ) {
       this.setState(({ cells }) => ({
-        cells: moveCells(cells, this.codeDirections[event.code])
+        cells: this.composeActions(cells, this.codeDirections[event.code])
       }))
     }
   }

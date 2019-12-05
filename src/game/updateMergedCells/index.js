@@ -1,0 +1,1 @@
+export { updateMergedCells } from './updateMergedCells'

@@ -53,7 +53,7 @@ export const moveCells = (cells, direction) => {
     matrix[y][x].x = x
     matrix[y][x].y = y
 
-    if (Object.prototype.hasOwnProperty.call(matrix[y][x], 'killingCell')) {
+    if (matrix[y][x].killingCell != null) {
       matrix[y][x].killingCell.x = x
       matrix[y][x].killingCell.y = y
     }
