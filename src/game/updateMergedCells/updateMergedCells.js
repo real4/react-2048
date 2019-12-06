@@ -1,4 +1,4 @@
-import { cellStates } from '../../utils/constants'
+import { statesCell } from '../../utils/constants'
 import { addCell } from '../addCell'
 
 export const updateMergedCells = (cells) => {
@@ -8,16 +8,16 @@ export const updateMergedCells = (cells) => {
   matrix = matrix.map((arr) =>
     arr.map((item) => {
       if (typeof item === 'object') {
-        if (item.state === cellStates.MOVING || item.state === cellStates.ENLARGE) {
+        if (item.state === statesCell.MOVING || item.state === statesCell.ENLARGE) {
           isMovingCells = true
         }
 
-        if (item.killingCell != null && item.state === cellStates.ENLARGE) {
+        if (item.killingCell != null && item.state === statesCell.ENLARGE) {
           delete item.killingCell
 
           item.value *= 2
         }
-        item.state = cellStates.STANDING
+        item.state = statesCell.STANDING
       }
       return item
     })

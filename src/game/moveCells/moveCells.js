@@ -1,26 +1,31 @@
 import { rotateMatrix } from '../../utils/rotateMatrix'
-import { cellStates } from '../../utils/constants'
+import { statesCell } from '../../utils/constants'
 
 function updateCell(x, y, cells) {
   const matrix = [...cells]
 
   for (let step = x - 1, current = x; step >= 0; step--) {
-    if (matrix[y][step] === 0) {
+    if (matrix[y][step] === 0 && matrix[y][step].state !== statesCell.DESTROING) {
       matrix[y][step] = matrix[y][current]
-      matrix[y][step].state = cellStates.MOVING
+      matrix[y][step].state = statesCell.MOVING
       matrix[y][current] = 0
 
       current = step
     } else if (
       matrix[y][step].value === matrix[y][current].value &&
-      (matrix[y][step].state === cellStates.STANDING || matrix[y][step].state === cellStates.MOVING)
+      (matrix[y][step].state === statesCell.STANDING ||
+        matrix[y][step].state === statesCell.MOVING ||
+        matrix[y][step].state === statesCell.CREATING)
     ) {
-      matrix[y][step].state = cellStates.DESTROING
+      matrix[y][step].state = statesCell.DESTROING
+      matrix[y][step].prevX = matrix[y][step].x
+      matrix[y][step].prevY = matrix[y][step].y
       matrix[y][step] = {
         ...matrix[y][current],
         killingCell: matrix[y][step]
       }
-      matrix[y][step].state = cellStates.ENLARGE
+
+      matrix[y][step].state = statesCell.ENLARGE
       matrix[y][current] = 0
 
       current = step

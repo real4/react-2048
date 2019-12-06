@@ -1,4 +1,5 @@
 import { rotateMatrix as flipMatrix } from 'rotate-matrix'
+
 import { directionsCell } from './constants'
 
 export const rotateMatrix = (matrix, direction, from = false) => {
