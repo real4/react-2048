@@ -2,8 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
-import { gameSettings } from '../../utils/constants'
-
+import { gameSettings, statesCell } from '../../utils/constants'
 import { getCellProps } from '../../utils/getCellProps'
 
 const FieldWrapper = styled.div`
@@ -12,20 +11,20 @@ const FieldWrapper = styled.div`
 
 const Background = styled.div`
   display: grid;
-  grid-template-columns: repeat(${({ gameSize }) => gameSize}, ${({ cellSize }) => cellSize}px);
-  grid-template-rows: repeat(${({ gameSize }) => gameSize}, ${({ cellSize }) => cellSize}px);
-  grid-gap: ${({ spaceBetween }) => spaceBetween}px;
+  grid-template-columns: repeat(${gameSettings.gameSize}, ${gameSettings.cellSize}px);
+  grid-template-rows: repeat(${gameSettings.gameSize}, ${gameSettings.cellSize}px);
+  grid-gap: ${gameSettings.spaceBetween}px;
 
   width: ${({ size }) => size}px;
   height: ${({ size }) => size}px;
-  padding: ${({ spaceBetween }) => spaceBetween}px;
+  padding: ${gameSettings.spaceBetween}px;
   border-radius: 5px;
   background-color: #776e65;
 `
 
 const BackgroundCell = styled.div`
-  width: ${({ cellSize }) => cellSize}px;
-  height: ${({ cellSize }) => cellSize}px;
+  width: ${gameSettings.cellSize}px;
+  height: ${gameSettings.cellSize}px;
   border-radius: 5px;
   background-color: rgba(238, 228, 218, 0.35);
 `
@@ -39,31 +38,78 @@ const Playground = styled(Background)`
   user-select: none;
 `
 
+const calculateCellPos = (pos) => gameSettings.cellSize * pos + gameSettings.spaceBetween * pos
+
 const Cell = styled(BackgroundCell)`
   position: absolute;
-  padding-top: ${({ cellSize, fontSize }) => cellSize / 2 - fontSize / 1.6}px;
+  width: ${gameSettings.cellSize}px;
+  height: ${gameSettings.cellSize}px;
+  background-color: transparent;
+
+  ${({ killingCell, x, y, translateToX, translateToY }) => {
+    const posX = calculateCellPos(x)
+    const posY = calculateCellPos(y)
+    const newX = translateToX !== undefined ? calculateCellPos(translateToX) : null
+    const newY = translateToY !== undefined ? calculateCellPos(translateToY) : null
+
+    if (x === translateToX && y === translateToY) {
+      killingCell = false
+    }
+
+    return !killingCell
+      ? `
+    transform: translate(
+      ${posX}px,
+      ${posY}px
+    );
+    transition-property: transform;
+    transition: 150ms;
+  `
+      : `
+      transform: translate(
+      ${newX}px,
+      ${newY}px
+    );
+    transition-property: transform;
+    transition: 150ms;
+  `
+  }}
+`
+/*
+
+ */
+const InnerCell = styled.div`
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 5px;
   color: ${({ color }) => color};
   background-color: ${({ background }) => background};
   font-size: ${({ fontSize }) => fontSize}px;
   font-weight: bold;
   text-align: center;
-  transform: translate(
-    ${({ x, cellSize, spaceBetween }) => cellSize * x + spaceBetween * x}px,
-    ${({ y, cellSize, spaceBetween }) => cellSize * y + spaceBetween * y}px
-  );
-  transition: transform 0.1s;
+  line-height: 97px;
+  ${({ state }) =>
+    state === statesCell.CREATING
+      ? `
+  animation: appear 200ms ease 100ms;
+  animation-fill-mode: backwards;`
+      : null}
 `
 
 const calculateFieldSize = (gameSize, cellSize, spaceBetween) =>
   cellSize * gameSize + spaceBetween * (gameSize + 1)
 
 export const Field = ({ cells }) => {
-  const { gameSize, cellSize, spaceBetween } = gameSettings
-  const fieldSize = calculateFieldSize(gameSize, cellSize, spaceBetween)
+  const fieldSize = calculateFieldSize(
+    gameSettings.gameSize,
+    gameSettings.cellSize,
+    gameSettings.spaceBetween
+  )
   const playgroundCells = []
-  
+
   const backgroundCells = Array.from(new Array(gameSettings.gameSize ** 2), (_, i) => (
-    <BackgroundCell key={i} cellSize={cellSize} />
+    <BackgroundCell key={i} />
   ))
 
   cells.forEach((row) =>
@@ -72,17 +118,10 @@ export const Field = ({ cells }) => {
         const { color, background, fontSize } = getCellProps(item.value)
 
         playgroundCells.push(
-          <Cell
-            key={item.id}
-            x={item.x}
-            y={item.y}
-            cellSize={cellSize}
-            spaceBetween={spaceBetween}
-            color={color}
-            background={background}
-            fontSize={fontSize}
-          >
-            {item.value}
+          <Cell key={item.id} x={item.x} y={item.y}>
+            <InnerCell state={item.state} color={color} background={background} fontSize={fontSize}>
+              {item.value}
+            </InnerCell>
           </Cell>
         )
 
@@ -90,15 +129,20 @@ export const Field = ({ cells }) => {
           playgroundCells.push(
             <Cell
               key={item.killingCell.id}
-              x={item.killingCell.x}
-              y={item.killingCell.y}
-              cellSize={cellSize}
-              spaceBetween={spaceBetween}
-              color={color}
-              background={background}
-              fontSize={fontSize}
+              killingCell
+              x={item.killingCell.prevX}
+              y={item.killingCell.prevY}
+              translateToX={item.killingCell.x}
+              translateToY={item.killingCell.y}
             >
-              {item.value}
+              <InnerCell
+                state={item.state}
+                color={color}
+                background={background}
+                fontSize={fontSize}
+              >
+                {item.value}
+              </InnerCell>
             </Cell>
           )
         }
@@ -108,22 +152,8 @@ export const Field = ({ cells }) => {
 
   return (
     <FieldWrapper>
-      <Background
-        size={fieldSize}
-        gameSize={gameSize}
-        cellSize={cellSize}
-        spaceBetween={spaceBetween}
-      >
-        {backgroundCells}
-      </Background>
-      <Playground
-        size={fieldSize}
-        gameSize={gameSize}
-        cellSize={cellSize}
-        spaceBetween={spaceBetween}
-      >
-        {playgroundCells}
-      </Playground>
+      <Background size={fieldSize}>{backgroundCells}</Background>
+      <Playground size={fieldSize}>{playgroundCells}</Playground>
     </FieldWrapper>
   )
 }

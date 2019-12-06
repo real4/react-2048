@@ -52,18 +52,18 @@ export class App extends Component {
         event.code
       )
     ) {
+      this.isKeyPressed = true
+
       this.setState(({ cells }) => ({
         cells: moveCells(cells, this.codeDirections[event.code])
       }))
 
-      await waitAnimation(100)
+      await waitAnimation(200)
 
       this.setState(({ cells }) => ({
         cells: updateMergedCells(cells)
       }))
     }
-
-    this.isKeyPressed = true
   }
 
   keyUpHandler = () => (this.isKeyPressed = false)
