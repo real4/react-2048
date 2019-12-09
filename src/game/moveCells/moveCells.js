@@ -50,7 +50,6 @@ function arrayForEach(matrix, func) {
 
 export const moveCells = (cells, direction) => {
   let matrix = [...cells]
-
   matrix = rotateMatrix(matrix, direction)
 
   // update matrix cells
@@ -62,11 +61,6 @@ export const moveCells = (cells, direction) => {
   arrayForEach(matrix, (x, y) => {
     matrix[y][x].x = x
     matrix[y][x].y = y
-
-    if (matrix[y][x].killingCell != null) {
-      matrix[y][x].killingCell.x = x
-      matrix[y][x].killingCell.y = y
-    }
   })
 
   return matrix

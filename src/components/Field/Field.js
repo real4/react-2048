@@ -124,28 +124,6 @@ export const Field = ({ cells }) => {
             </InnerCell>
           </Cell>
         )
-
-        if (item.killingCell != null) {
-          playgroundCells.push(
-            <Cell
-              key={item.killingCell.id}
-              killingCell
-              x={item.killingCell.prevX}
-              y={item.killingCell.prevY}
-              translateToX={item.killingCell.x}
-              translateToY={item.killingCell.y}
-            >
-              <InnerCell
-                state={item.state}
-                color={color}
-                background={background}
-                fontSize={fontSize}
-              >
-                {item.value}
-              </InnerCell>
-            </Cell>
-          )
-        }
       }
     })
   )
@@ -158,20 +136,20 @@ export const Field = ({ cells }) => {
   )
 }
 
-Field.propTypes = {
-  settings: PropTypes.shape({
-    gameSize: PropTypes.number,
-    cellSize: PropTypes.number,
-    spaceBetween: PropTypes.number
-  }),
-  cells: PropTypes.arrayOf(PropTypes.array)
-}
+// Field.propTypes = {
+//   settings: PropTypes.shape({
+//     gameSize: PropTypes.number,
+//     cellSize: PropTypes.number,
+//     spaceBetween: PropTypes.number
+//   }),
+//   cells: PropTypes.arrayOf(PropTypes.array)
+// }
 
-Field.defaultProps = {
-  settings: {
-    gameSize: 4,
-    cellSize: 98,
-    spaceBetween: 12
-  },
-  cells: []
-}
+// Field.defaultProps = {
+//   settings: {
+//     gameSize: 4,
+//     cellSize: 98,
+//     spaceBetween: 12
+//   },
+//   cells: []
+// }
