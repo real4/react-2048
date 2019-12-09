@@ -46,38 +46,16 @@ const Cell = styled(BackgroundCell)`
   height: ${gameSettings.cellSize}px;
   background-color: transparent;
 
-  ${({ killingCell, x, y, translateToX, translateToY }) => {
-    const posX = calculateCellPos(x)
-    const posY = calculateCellPos(y)
-    const newX = translateToX !== undefined ? calculateCellPos(translateToX) : null
-    const newY = translateToY !== undefined ? calculateCellPos(translateToY) : null
-
-    if (x === translateToX && y === translateToY) {
-      killingCell = false
-    }
-
-    return !killingCell
-      ? `
-    transform: translate(
-      ${posX}px,
-      ${posY}px
-    );
-    transition-property: transform;
-    transition: 150ms;
-  `
-      : `
+  ${({ x, y }) => `
       transform: translate(
-      ${newX}px,
-      ${newY}px
-    );
-    transition-property: transform;
-    transition: 150ms;
-  `
-  }}
+        ${calculateCellPos(x)}px,
+        ${calculateCellPos(y)}px
+      );
+    `};
+  transition-property: transform;
+  transition: 150ms;
 `
-/*
 
- */
 const InnerCell = styled.div`
   position: relative;
   width: 100%;
@@ -106,27 +84,24 @@ export const Field = ({ cells }) => {
     gameSettings.cellSize,
     gameSettings.spaceBetween
   )
-  const playgroundCells = []
+
+  console.log(cells)
 
   const backgroundCells = Array.from(new Array(gameSettings.gameSize ** 2), (_, i) => (
     <BackgroundCell key={i} />
   ))
 
-  cells.forEach((row) =>
-    row.forEach((item) => {
-      if (typeof item === 'object') {
-        const { color, background, fontSize } = getCellProps(item.value)
+  const playgroundCells = cells.map((cell) => {
+    const { color, background, fontSize } = getCellProps(cell.value)
 
-        playgroundCells.push(
-          <Cell key={item.id} x={item.x} y={item.y}>
-            <InnerCell state={item.state} color={color} background={background} fontSize={fontSize}>
-              {item.value}
-            </InnerCell>
-          </Cell>
-        )
-      }
-    })
-  )
+    return (
+      <Cell key={cell.id} x={cell.x} y={cell.y}>
+        <InnerCell state={cell.state} color={color} background={background} fontSize={fontSize}>
+          {cell.value}
+        </InnerCell>
+      </Cell>
+    )
+  })
 
   return (
     <FieldWrapper>
@@ -136,20 +111,20 @@ export const Field = ({ cells }) => {
   )
 }
 
-// Field.propTypes = {
-//   settings: PropTypes.shape({
-//     gameSize: PropTypes.number,
-//     cellSize: PropTypes.number,
-//     spaceBetween: PropTypes.number
-//   }),
-//   cells: PropTypes.arrayOf(PropTypes.array)
-// }
+Field.propTypes = {
+  settings: PropTypes.shape({
+    gameSize: PropTypes.number,
+    cellSize: PropTypes.number,
+    spaceBetween: PropTypes.number
+  }),
+  cells: PropTypes.arrayOf(PropTypes.object)
+}
 
-// Field.defaultProps = {
-//   settings: {
-//     gameSize: 4,
-//     cellSize: 98,
-//     spaceBetween: 12
-//   },
-//   cells: []
-// }
+Field.defaultProps = {
+  settings: {
+    gameSize: 4,
+    cellSize: 98,
+    spaceBetween: 12
+  },
+  cells: []
+}
