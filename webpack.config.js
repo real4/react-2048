@@ -51,7 +51,7 @@ module.exports = (env) => {
       new HtmlWebpackPlugin({
         filename: 'index.html',
         template: 'public/index.html',
-        minify: isProd ? true : false
+        minify: !!isProd
       })
     ],
 
