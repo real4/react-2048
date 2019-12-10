@@ -1,29 +1,35 @@
 import { createCell } from '../createCell'
-import { statesCell } from '../../utils/constants'
+import { gameSettings, statesCell } from '../../utils/constants'
 import { randomRange } from '../../utils/randomRange'
 
-export const addCell = (mat) => {
-  const cells = [...mat]
-  const fields = []
-  let hasField = false
+export const addCell = (cells) => {
+  const occupiedCoords = new Set()
 
-  cells.forEach((row, y) =>
-    row.forEach((cell, x) => {
-      if (cell === 0) {
-        fields.push({ x, y })
+  cells.forEach((cell) => {
+    if (cell.state !== statesCell.DESTROING) {
+      occupiedCoords.add(cell.x * gameSettings.gameSize + cell.y)
+    }
+  })
 
-        hasField = true
-      }
-    })
-  )
+  if (occupiedCoords.size === gameSettings.gameSize ** 2) {
+    return cells
+  }
 
-  const numField = randomRange(0, fields.length - 1)
-  const x = fields[numField].y
-  const y = fields[numField].x
-  const value = Math.floor(Math.random() * 2) === 0 ? 2 : 4
+  let x
+  let y
+  const startSize = occupiedCoords.size
 
-  cells[x][y] = createCell(y, x, value)
-  cells[x][y].state = statesCell.CREATING
+  do {
+    x = randomRange(0, gameSettings.gameSize - 1)
+    y = randomRange(0, gameSettings.gameSize - 1)
 
-  return hasField ? cells : mat
+    const sum = x * gameSettings.gameSize + y
+
+    occupiedCoords.add(sum)
+  } while (startSize === occupiedCoords.size)
+
+  const newCell = createCell(x, y, Math.floor(Math.random() * 2) === 1 ? 4 : 2)
+  newCell.state = statesCell.CREATING
+
+  return [...cells, newCell]
 }

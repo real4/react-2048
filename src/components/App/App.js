@@ -8,7 +8,7 @@ import { directionsCell } from '../../utils/constants'
 
 import { initCells, moveCells, updateMergedCells } from '../../game'
 
-const awaitAnimation = (time) => new Promise((resolve) => setTimeout(resolve, time))
+const waitAnimation = (time) => new Promise((resolve) => setTimeout(resolve, time))
 
 export class App extends Component {
   state = {
@@ -58,7 +58,7 @@ export class App extends Component {
         cells: moveCells(cells, this.codeDirections[event.code])
       }))
 
-      await awaitAnimation(150)
+      await waitAnimation(150)
 
       this.setState(({ cells }) => ({
         cells: updateMergedCells(cells)

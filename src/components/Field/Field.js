@@ -78,7 +78,7 @@ const InnerCell = styled.div`
           animation: pop 200ms ease 150ms;
           animation-fill-mode: backwards;
         `
-      : null}}
+      : null}
 `
 
 const calculateFieldSize = (gameSize, cellSize, spaceBetween) =>
@@ -90,7 +90,7 @@ export const Field = ({ cells }) => {
     gameSettings.cellSize,
     gameSettings.spaceBetween
   )
-  console.log('Field: ', cells)
+
   const backgroundCells = Array.from(new Array(gameSettings.gameSize ** 2), (_, i) => (
     <BackgroundCell key={i} />
   ))

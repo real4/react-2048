@@ -19,6 +19,5 @@ export const updateMergedCells = (cells) => {
     return cell
   })
 
-  // return isMovingCells ? addCell(cloneCells) : cloneCells
-  return cloneCells
+  return isMovingCells ? addCell(cloneCells) : cloneCells
 }
