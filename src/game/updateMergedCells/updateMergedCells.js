@@ -2,26 +2,22 @@ import { statesCell } from '../../utils/constants'
 import { addCell } from '../addCell'
 
 export const updateMergedCells = (cells) => {
-  let matrix = [...cells]
+  let cloneCells = [...cells]
   let isMovingCells = false
 
-  matrix = matrix.map((arr) =>
-    arr.map((item) => {
-      if (typeof item === 'object') {
-        if (item.state === statesCell.MOVING || item.state === statesCell.ENLARGE) {
-          isMovingCells = true
-        }
+  cloneCells = cloneCells.map((cell) => {
+    if (cell.state === statesCell.ENLARGE || cell.state === statesCell.DESTROING) {
+      cell.value *= 2
+    }
 
-        if (item.killingCell != null && item.state === statesCell.ENLARGE) {
-          delete item.killingCell
+    if (cell.state === statesCell.MOVING || cell.state === statesCell.ENLARGE) {
+      isMovingCells = true
 
-          item.value *= 2
-        }
-        item.state = statesCell.STANDING
-      }
-      return item
-    })
-  )
+      cell.state = statesCell.STANDING
+    }
 
-  return isMovingCells ? addCell(matrix) : matrix
+    return cell
+  })
+
+  return isMovingCells ? addCell(cloneCells) : cloneCells
 }

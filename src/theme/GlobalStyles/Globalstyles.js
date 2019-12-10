@@ -28,11 +28,10 @@ export const GlobalStyles = createGlobalStyle`
       transform: scale(1); 
     } 
   }
-  /* animation: pop 200ms ease 100ms;
-  animation-fill-mode: backwards; */
+
   @keyframes pop {
     0% {
-      transform: scale(0); 
+      transform: scale(1); 
     }
     50% {
       transform: scale(1.2); 

@@ -58,7 +58,7 @@ export class App extends Component {
         cells: moveCells(cells, this.codeDirections[event.code])
       }))
 
-      await waitAnimation(200)
+      await waitAnimation(150)
 
       this.setState(({ cells }) => ({
         cells: updateMergedCells(cells)
