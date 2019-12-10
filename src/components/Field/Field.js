@@ -14,7 +14,6 @@ const Background = styled.div`
   grid-template-columns: repeat(${gameSettings.gameSize}, ${gameSettings.cellSize}px);
   grid-template-rows: repeat(${gameSettings.gameSize}, ${gameSettings.cellSize}px);
   grid-gap: ${gameSettings.spaceBetween}px;
-
   width: ${({ size }) => size}px;
   height: ${({ size }) => size}px;
   padding: ${gameSettings.spaceBetween}px;
@@ -53,7 +52,7 @@ const Cell = styled(BackgroundCell)`
       );
     `};
   transition-property: transform;
-  transition: 150ms;
+  transition: 3050ms;
 `
 
 const InnerCell = styled.div`
@@ -70,8 +69,8 @@ const InnerCell = styled.div`
   ${({ state }) =>
     state === statesCell.CREATING
       ? `
-  animation: appear 200ms ease 100ms;
-  animation-fill-mode: backwards;`
+        animation: appear 200ms ease 100ms;
+        animation-fill-mode: backwards;`
       : null}
 `
 
@@ -84,8 +83,6 @@ export const Field = ({ cells }) => {
     gameSettings.cellSize,
     gameSettings.spaceBetween
   )
-
-  console.log(cells)
 
   const backgroundCells = Array.from(new Array(gameSettings.gameSize ** 2), (_, i) => (
     <BackgroundCell key={i} />

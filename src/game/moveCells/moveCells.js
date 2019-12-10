@@ -1,5 +1,5 @@
 import { rotateMatrix } from '../../utils/rotateMatrix'
-import { statesCell } from '../../utils/constants'
+import { statesCell, gameSettings } from '../../utils/constants'
 
 function updateCell(x, y, cells) {
   const matrix = [...cells]
@@ -18,12 +18,8 @@ function updateCell(x, y, cells) {
         matrix[y][step].state === statesCell.CREATING)
     ) {
       matrix[y][step].state = statesCell.DESTROING
-      matrix[y][step].prevX = matrix[y][step].x
-      matrix[y][step].prevY = matrix[y][step].y
-      matrix[y][step] = {
-        ...matrix[y][current],
-        killingCell: matrix[y][step]
-      }
+      matrix[y][step].killingBy = matrix[y][current].id
+      matrix[y][step] = matrix[y][current]
 
       matrix[y][step].state = statesCell.ENLARGE
       matrix[y][current] = 0
@@ -49,12 +45,25 @@ function arrayForEach(matrix, func) {
 }
 
 export const moveCells = (cells, direction) => {
-  let matrix = [...cells]
+  const cloneCells = [...cells]
+
+  // create matrix with cells
+  let matrix = Array.from(new Array(gameSettings.gameSize), () =>
+    Array.from(new Array(gameSettings.gameSize), () => 0)
+  )
+
+  // push cells in matrix
+  cloneCells.forEach((cell) => {
+    matrix[cell.y][cell.x] = cell
+  })
+
+  // rotate like direction
   matrix = rotateMatrix(matrix, direction)
 
-  // update matrix cells
+  // update matrix cells, move left logic
   arrayForEach(matrix, updateCell)
 
+  // rotate back to default
   matrix = rotateMatrix(matrix, direction, true)
 
   // update cell props
@@ -63,5 +72,15 @@ export const moveCells = (cells, direction) => {
     matrix[y][x].y = y
   })
 
-  return matrix
+  // update destroing cell position
+  cloneCells.forEach((cell) => {
+    if (cell.state === statesCell.DESTROING) {
+      const killerCell = cloneCells.filter((cl) => cl.id === cell.killingBy)
+
+      cell.x = killerCell[0].x
+      cell.y = killerCell[0].y
+    }
+  })
+
+  return cloneCells
 }
