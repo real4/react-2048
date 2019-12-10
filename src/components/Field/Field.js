@@ -41,6 +41,7 @@ const calculateCellPos = (pos) => gameSettings.cellSize * pos + gameSettings.spa
 
 const Cell = styled(BackgroundCell)`
   position: absolute;
+  z-index: ${({ state }) => (state === statesCell.DESTROING ? 0 : 1)};
   width: ${gameSettings.cellSize}px;
   height: ${gameSettings.cellSize}px;
   background-color: transparent;
@@ -52,7 +53,7 @@ const Cell = styled(BackgroundCell)`
       );
     `};
   transition-property: transform;
-  transition: 250ms;
+  transition: 100ms;
 `
 
 const InnerCell = styled.div`
@@ -70,8 +71,14 @@ const InnerCell = styled.div`
     state === statesCell.CREATING
       ? `
         animation: appear 200ms ease 100ms;
-        animation-fill-mode: backwards;`
-      : null}
+        animation-fill-mode: backwards;
+      `
+      : state === statesCell.DESTROING
+      ? `
+          animation: pop 200ms ease 150ms;
+          animation-fill-mode: backwards;
+        `
+      : null}}
 `
 
 const calculateFieldSize = (gameSize, cellSize, spaceBetween) =>
@@ -83,7 +90,7 @@ export const Field = ({ cells }) => {
     gameSettings.cellSize,
     gameSettings.spaceBetween
   )
-  console.log(cells)
+  console.log('Field: ', cells)
   const backgroundCells = Array.from(new Array(gameSettings.gameSize ** 2), (_, i) => (
     <BackgroundCell key={i} />
   ))
@@ -92,7 +99,7 @@ export const Field = ({ cells }) => {
     const { color, background, fontSize } = getCellProps(cell.value)
 
     return (
-      <Cell key={cell.id} x={cell.x} y={cell.y}>
+      <Cell key={cell.id} state={cell.state} x={cell.x} y={cell.y}>
         <InnerCell state={cell.state} color={color} background={background} fontSize={fontSize}>
           {cell.value}
         </InnerCell>

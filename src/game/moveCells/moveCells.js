@@ -58,7 +58,7 @@ export const moveCells = (cells, direction) => {
   // push cells in matrix
   cloneCells.forEach((cell) => (matrix[cell.y][cell.x] = cell))
 
-  // rotate like direction
+  // rotate matrix to left x move, like direction
   matrix = rotateMatrix(matrix, direction)
 
   // update matrix cells, move left logic
@@ -71,8 +71,6 @@ export const moveCells = (cells, direction) => {
   arrayForEach(matrix, (x, y) => {
     matrix[y][x].x = x
     matrix[y][x].y = y
-
-    matrix[y][x].state = statesCell.STANDING
   })
 
   // update destroing cell position

@@ -32,7 +32,7 @@ export const GlobalStyles = createGlobalStyle`
   animation-fill-mode: backwards; */
   @keyframes pop {
     0% {
-      transform: scale(0); 
+      transform: scale(1); 
     }
     50% {
       transform: scale(1.2); 
