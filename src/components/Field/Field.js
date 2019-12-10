@@ -52,7 +52,7 @@ const Cell = styled(BackgroundCell)`
       );
     `};
   transition-property: transform;
-  transition: 3050ms;
+  transition: 250ms;
 `
 
 const InnerCell = styled.div`
@@ -83,7 +83,7 @@ export const Field = ({ cells }) => {
     gameSettings.cellSize,
     gameSettings.spaceBetween
   )
-
+  console.log(cells)
   const backgroundCells = Array.from(new Array(gameSettings.gameSize ** 2), (_, i) => (
     <BackgroundCell key={i} />
   ))

@@ -45,17 +45,18 @@ function arrayForEach(matrix, func) {
 }
 
 export const moveCells = (cells, direction) => {
-  const cloneCells = [...cells]
+  let cloneCells = [...cells]
 
   // create matrix with cells
   let matrix = Array.from(new Array(gameSettings.gameSize), () =>
     Array.from(new Array(gameSettings.gameSize), () => 0)
   )
 
+  // destroy old cells
+  cloneCells = cloneCells.filter((cell) => cell.state !== statesCell.DESTROING)
+
   // push cells in matrix
-  cloneCells.forEach((cell) => {
-    matrix[cell.y][cell.x] = cell
-  })
+  cloneCells.forEach((cell) => (matrix[cell.y][cell.x] = cell))
 
   // rotate like direction
   matrix = rotateMatrix(matrix, direction)
@@ -70,6 +71,8 @@ export const moveCells = (cells, direction) => {
   arrayForEach(matrix, (x, y) => {
     matrix[y][x].x = x
     matrix[y][x].y = y
+
+    matrix[y][x].state = statesCell.STANDING
   })
 
   // update destroing cell position
