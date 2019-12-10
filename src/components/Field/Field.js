@@ -14,7 +14,6 @@ const Background = styled.div`
   grid-template-columns: repeat(${gameSettings.gameSize}, ${gameSettings.cellSize}px);
   grid-template-rows: repeat(${gameSettings.gameSize}, ${gameSettings.cellSize}px);
   grid-gap: ${gameSettings.spaceBetween}px;
-
   width: ${({ size }) => size}px;
   height: ${({ size }) => size}px;
   padding: ${gameSettings.spaceBetween}px;
@@ -42,42 +41,21 @@ const calculateCellPos = (pos) => gameSettings.cellSize * pos + gameSettings.spa
 
 const Cell = styled(BackgroundCell)`
   position: absolute;
+  z-index: ${({ state }) => (state === statesCell.DESTROING ? 0 : 1)};
   width: ${gameSettings.cellSize}px;
   height: ${gameSettings.cellSize}px;
   background-color: transparent;
 
-  ${({ killingCell, x, y, translateToX, translateToY }) => {
-    const posX = calculateCellPos(x)
-    const posY = calculateCellPos(y)
-    const newX = translateToX !== undefined ? calculateCellPos(translateToX) : null
-    const newY = translateToY !== undefined ? calculateCellPos(translateToY) : null
-
-    if (x === translateToX && y === translateToY) {
-      killingCell = false
-    }
-
-    return !killingCell
-      ? `
-    transform: translate(
-      ${posX}px,
-      ${posY}px
-    );
-    transition-property: transform;
-    transition: 150ms;
-  `
-      : `
+  ${({ x, y }) => `
       transform: translate(
-      ${newX}px,
-      ${newY}px
-    );
-    transition-property: transform;
-    transition: 150ms;
-  `
-  }}
+        ${calculateCellPos(x)}px,
+        ${calculateCellPos(y)}px
+      );
+    `};
+  transition-property: transform;
+  transition: 100ms;
 `
-/*
 
- */
 const InnerCell = styled.div`
   position: relative;
   width: 100%;
@@ -92,8 +70,14 @@ const InnerCell = styled.div`
   ${({ state }) =>
     state === statesCell.CREATING
       ? `
-  animation: appear 200ms ease 100ms;
-  animation-fill-mode: backwards;`
+        animation: appear 200ms ease 100ms;
+        animation-fill-mode: backwards;
+      `
+      : state === statesCell.DESTROING
+      ? `
+          animation: pop 200ms ease 150ms;
+          animation-fill-mode: backwards;
+        `
       : null}
 `
 
@@ -106,49 +90,22 @@ export const Field = ({ cells }) => {
     gameSettings.cellSize,
     gameSettings.spaceBetween
   )
-  const playgroundCells = []
 
   const backgroundCells = Array.from(new Array(gameSettings.gameSize ** 2), (_, i) => (
     <BackgroundCell key={i} />
   ))
 
-  cells.forEach((row) =>
-    row.forEach((item) => {
-      if (typeof item === 'object') {
-        const { color, background, fontSize } = getCellProps(item.value)
+  const playgroundCells = cells.map((cell) => {
+    const { color, background, fontSize } = getCellProps(cell.value)
 
-        playgroundCells.push(
-          <Cell key={item.id} x={item.x} y={item.y}>
-            <InnerCell state={item.state} color={color} background={background} fontSize={fontSize}>
-              {item.value}
-            </InnerCell>
-          </Cell>
-        )
-
-        if (item.killingCell != null) {
-          playgroundCells.push(
-            <Cell
-              key={item.killingCell.id}
-              killingCell
-              x={item.killingCell.prevX}
-              y={item.killingCell.prevY}
-              translateToX={item.killingCell.x}
-              translateToY={item.killingCell.y}
-            >
-              <InnerCell
-                state={item.state}
-                color={color}
-                background={background}
-                fontSize={fontSize}
-              >
-                {item.value}
-              </InnerCell>
-            </Cell>
-          )
-        }
-      }
-    })
-  )
+    return (
+      <Cell key={cell.id} state={cell.state} x={cell.x} y={cell.y}>
+        <InnerCell state={cell.state} color={color} background={background} fontSize={fontSize}>
+          {cell.value}
+        </InnerCell>
+      </Cell>
+    )
+  })
 
   return (
     <FieldWrapper>
@@ -164,7 +121,7 @@ Field.propTypes = {
     cellSize: PropTypes.number,
     spaceBetween: PropTypes.number
   }),
-  cells: PropTypes.arrayOf(PropTypes.array)
+  cells: PropTypes.arrayOf(PropTypes.object)
 }
 
 Field.defaultProps = {

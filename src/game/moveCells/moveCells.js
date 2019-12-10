@@ -1,5 +1,5 @@
 import { rotateMatrix } from '../../utils/rotateMatrix'
-import { statesCell } from '../../utils/constants'
+import { statesCell, gameSettings } from '../../utils/constants'
 
 function updateCell(x, y, cells) {
   const matrix = [...cells]
@@ -18,12 +18,8 @@ function updateCell(x, y, cells) {
         matrix[y][step].state === statesCell.CREATING)
     ) {
       matrix[y][step].state = statesCell.DESTROING
-      matrix[y][step].prevX = matrix[y][step].x
-      matrix[y][step].prevY = matrix[y][step].y
-      matrix[y][step] = {
-        ...matrix[y][current],
-        killingCell: matrix[y][step]
-      }
+      matrix[y][step].killingBy = matrix[y][current].id
+      matrix[y][step] = matrix[y][current]
 
       matrix[y][step].state = statesCell.ENLARGE
       matrix[y][current] = 0
@@ -49,25 +45,43 @@ function arrayForEach(matrix, func) {
 }
 
 export const moveCells = (cells, direction) => {
-  let matrix = [...cells]
+  let cloneCells = [...cells]
 
+  // create matrix with cells
+  let matrix = Array.from(new Array(gameSettings.gameSize), () =>
+    Array.from(new Array(gameSettings.gameSize), () => 0)
+  )
+
+  // destroy old cells
+  cloneCells = cloneCells.filter((cell) => cell.state !== statesCell.DESTROING)
+
+  // push cells in matrix
+  cloneCells.forEach((cell) => (matrix[cell.y][cell.x] = cell))
+
+  // rotate matrix to left x move, like direction
   matrix = rotateMatrix(matrix, direction)
 
-  // update matrix cells
+  // update matrix cells, move left logic
   arrayForEach(matrix, updateCell)
 
+  // rotate back to default
   matrix = rotateMatrix(matrix, direction, true)
 
   // update cell props
   arrayForEach(matrix, (x, y) => {
     matrix[y][x].x = x
     matrix[y][x].y = y
+  })
 
-    if (matrix[y][x].killingCell != null) {
-      matrix[y][x].killingCell.x = x
-      matrix[y][x].killingCell.y = y
+  // update destroing cell position
+  cloneCells.forEach((cell) => {
+    if (cell.state === statesCell.DESTROING) {
+      const killerCell = cloneCells.filter((cl) => cl.id === cell.killingBy)
+
+      cell.x = killerCell[0].x
+      cell.y = killerCell[0].y
     }
   })
 
-  return matrix
+  return cloneCells
 }
