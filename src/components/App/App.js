@@ -4,7 +4,7 @@ import { GlobalStyles } from '../../theme/GlobalStyles'
 import { Content } from '../Content'
 import { Field } from '../Field'
 
-import { directionsCell } from '../../utils/constants'
+import { directionsCell, codeKeys } from '../../utils/constants'
 
 import { initCells, moveCells, updateMergedCells } from '../../game'
 
@@ -45,13 +45,7 @@ export class App extends Component {
   }
 
   keyDownHandler = async (event) => {
-    if (
-      !this.isAnimated &&
-      !this.isKeyPressed &&
-      ['KeyW', 'ArrowUp', 'KeyS', 'ArrowDown', 'KeyD', 'ArrowRight', 'KeyA', 'ArrowLeft'].includes(
-        event.code
-      )
-    ) {
+    if (!this.isAnimated && !this.isKeyPressed && codeKeys.has(event.code)) {
       this.isKeyPressed = true
 
       this.setState(({ cells }) => ({

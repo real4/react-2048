@@ -11,6 +11,17 @@ export const directionsCell = {
   RIGHT: 'KEY_RIGHT'
 }
 
+export const codeKeys = new Set([
+  'KeyW',
+  'KeyS',
+  'KeyD',
+  'KeyA',
+  'ArrowUp',
+  'ArrowDown',
+  'ArrowRight',
+  'ArrowLeft'
+])
+
 export const statesCell = {
   CREATING: 'CELL_CREATING',
   STANDING: 'CELL_STANDING',
