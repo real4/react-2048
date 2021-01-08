@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 
-import { GlobalStyles } from '../../theme/GlobalStyles'
-import { Content } from '../Content'
-import { Field } from '../Field'
+import GlobalStyles from '../../theme/GlobalStyles'
+import Content from '../Content'
+import Field from '../Field'
 
 import { directionsCell, codeKeys } from '../../utils/constants'
 
@@ -10,7 +10,7 @@ import { initCells, moveCells, updateMergedCells } from '../../game'
 
 const waitAnimation = (time) => new Promise((resolve) => setTimeout(resolve, time))
 
-export class App extends Component {
+export default class App extends Component {
   state = {
     cells: initCells()
   }
@@ -75,13 +75,14 @@ export class App extends Component {
 
   render() {
     const { cells } = this.state
+    const buttonStyles = { marginBottom: '20px' }
 
     return (
       <>
         <GlobalStyles />
         <Content>
           <h1>2048</h1>
-          <button type="button" style={{ marginBottom: '20px' }} onClick={this.newGameHandler}>
+          <button type="button" style={buttonStyles} onClick={this.newGameHandler}>
             New game
           </button>
           <Field cells={cells} />

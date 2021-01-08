@@ -84,7 +84,7 @@ const InnerCell = styled.div`
 const calculateFieldSize = (gameSize, cellSize, spaceBetween) =>
   cellSize * gameSize + spaceBetween * (gameSize + 1)
 
-export const Field = ({ cells }) => {
+const Field = ({ cells }) => {
   const fieldSize = calculateFieldSize(
     gameSettings.gameSize,
     gameSettings.cellSize,
@@ -132,3 +132,5 @@ Field.defaultProps = {
   },
   cells: []
 }
+
+export default Field
