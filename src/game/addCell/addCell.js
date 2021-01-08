@@ -6,7 +6,7 @@ export const addCell = (cells) => {
   const occupiedCoords = new Set()
 
   cells.forEach((cell) => {
-    if (cell.state !== statesCell.DESTROING) {
+    if (cell.state !== statesCell.DESTROYING) {
       occupiedCoords.add(cell.x * gameSettings.gameSize + cell.y)
     }
   })

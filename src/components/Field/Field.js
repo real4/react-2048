@@ -41,7 +41,7 @@ const calculateCellPos = (pos) => gameSettings.cellSize * pos + gameSettings.spa
 
 const Cell = styled(BackgroundCell)`
   position: absolute;
-  z-index: ${({ state }) => (state === statesCell.DESTROING ? 0 : 1)};
+  z-index: ${({ state }) => (state === statesCell.DESTROYING ? 0 : 1)};
   width: ${gameSettings.cellSize}px;
   height: ${gameSettings.cellSize}px;
   background-color: transparent;
@@ -73,7 +73,7 @@ const InnerCell = styled.div`
         animation: appear 200ms ease 100ms;
         animation-fill-mode: backwards;
       `
-      : state === statesCell.DESTROING
+      : state === statesCell.DESTROYING
       ? `
           animation: pop 200ms ease 150ms;
           animation-fill-mode: backwards;

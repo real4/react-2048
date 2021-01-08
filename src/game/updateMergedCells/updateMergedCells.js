@@ -6,7 +6,7 @@ export const updateMergedCells = (cells) => {
   let isMovingCells = false
 
   cloneCells = cloneCells.map((cell) => {
-    if (cell.state === statesCell.ENLARGE || cell.state === statesCell.DESTROING) {
+    if (cell.state === statesCell.ENLARGE || cell.state === statesCell.DESTROYING) {
       cell.value *= 2
     }
 
