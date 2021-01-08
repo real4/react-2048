@@ -1,4 +1,4 @@
-# React.js 2048 game 🎮 
+# React.js 2048 game [🎮](https://offreal.github.io/react-2048/)
 
 Implementation of the popular mobile game 2048 in React.js
 
