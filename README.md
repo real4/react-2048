@@ -30,7 +30,7 @@ Use to run all tests (in development)
 
 #### `yarn deploy`
 
-Use to publish the final build to github pages. Before submitting, you need to specify a link to the repository in `package.json` in` home`
+Use to publish the final build to github pages. Before submitting, you need to specify a link to the repository in *package.json* in *home*
 
 ## Technologies
 
