@@ -8,6 +8,8 @@ import { directionsCell, codeKeys } from '../../utils/constants'
 import sleep from '../../utils/sleep'
 import { initCells, moveCells, updateMergedCells } from '../../game'
 
+import '../../../public/favicon.ico'
+
 export default class App extends Component {
   state = {
     cells: initCells()
