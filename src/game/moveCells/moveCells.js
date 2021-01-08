@@ -1,11 +1,11 @@
-import { rotateMatrix } from '../../utils/rotateMatrix'
+import rotateMatrix from '../../utils/rotateMatrix'
 import { statesCell, gameSettings } from '../../utils/constants'
 
 function updateCell(x, y, cells) {
   const matrix = [...cells]
 
   for (let step = x - 1, current = x; step >= 0; step--) {
-    if (matrix[y][step] === 0 && matrix[y][step].state !== statesCell.DESTROING) {
+    if (matrix[y][step] === 0 && matrix[y][step].state !== statesCell.DESTROYING) {
       matrix[y][step] = matrix[y][current]
       matrix[y][step].state = statesCell.MOVING
       matrix[y][current] = 0
@@ -17,7 +17,7 @@ function updateCell(x, y, cells) {
         matrix[y][step].state === statesCell.MOVING ||
         matrix[y][step].state === statesCell.CREATING)
     ) {
-      matrix[y][step].state = statesCell.DESTROING
+      matrix[y][step].state = statesCell.DESTROYING
       matrix[y][step].killingBy = matrix[y][current].id
       matrix[y][step] = matrix[y][current]
 
@@ -44,7 +44,7 @@ function arrayForEach(matrix, func) {
   )
 }
 
-export const moveCells = (cells, direction) => {
+const moveCells = (cells, direction) => {
   let cloneCells = [...cells]
 
   // create matrix with cells
@@ -53,7 +53,7 @@ export const moveCells = (cells, direction) => {
   )
 
   // destroy old cells
-  cloneCells = cloneCells.filter((cell) => cell.state !== statesCell.DESTROING)
+  cloneCells = cloneCells.filter((cell) => cell.state !== statesCell.DESTROYING)
 
   // push cells in matrix
   cloneCells.forEach((cell) => (matrix[cell.y][cell.x] = cell))
@@ -73,9 +73,9 @@ export const moveCells = (cells, direction) => {
     matrix[y][x].y = y
   })
 
-  // update destroing cell position
+  // update destroying cell position
   cloneCells.forEach((cell) => {
-    if (cell.state === statesCell.DESTROING) {
+    if (cell.state === statesCell.DESTROYING) {
       const killerCell = cloneCells.filter((cl) => cl.id === cell.killingBy)
 
       cell.x = killerCell[0].x
@@ -85,3 +85,5 @@ export const moveCells = (cells, direction) => {
 
   return cloneCells
 }
+
+export default moveCells

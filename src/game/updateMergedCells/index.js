@@ -1,1 +1,1 @@
-export { updateMergedCells } from './updateMergedCells'
+export { default } from './updateMergedCells'

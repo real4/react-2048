@@ -1,12 +1,12 @@
-import { createCell } from '../createCell'
+import createCell from '../createCell'
 import { gameSettings, statesCell } from '../../utils/constants'
-import { randomRange } from '../../utils/randomRange'
+import randomRange from '../../utils/randomRange'
 
-export const addCell = (cells) => {
+const addCell = (cells) => {
   const occupiedCoords = new Set()
 
   cells.forEach((cell) => {
-    if (cell.state !== statesCell.DESTROING) {
+    if (cell.state !== statesCell.DESTROYING) {
       occupiedCoords.add(cell.x * gameSettings.gameSize + cell.y)
     }
   })
@@ -33,3 +33,5 @@ export const addCell = (cells) => {
 
   return [...cells, newCell]
 }
+
+export default addCell

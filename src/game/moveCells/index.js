@@ -1,1 +1,1 @@
-export { moveCells } from './moveCells'
+export { default } from './moveCells'

@@ -14,7 +14,6 @@
     "no-return-assign": ["error", "except-parens"],
     "no-underscore-dangle": ["error", { "allow": ["__"] }],
     "import/prefer-default-export": "off",
-    "import/no-default-export": "error",
     "jsx-a11y/anchor-is-valid": ["error", { "specialLink": ["to"] }],
     "react/destructuring-assignment": "off",
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],

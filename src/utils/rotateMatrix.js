@@ -2,7 +2,7 @@ import { rotateMatrix as flipMatrix } from 'rotate-matrix'
 
 import { directionsCell } from './constants'
 
-export const rotateMatrix = (matrix, direction, rotateBack = false) => {
+const rotateMatrix = (matrix, direction, rotateBack = false) => {
   let newMatrix = [...matrix]
 
   if (!rotateBack) {
@@ -43,3 +43,5 @@ export const rotateMatrix = (matrix, direction, rotateBack = false) => {
 
   return newMatrix
 }
+
+export default rotateMatrix

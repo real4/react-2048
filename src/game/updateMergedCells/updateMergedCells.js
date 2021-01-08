@@ -1,12 +1,12 @@
 import { statesCell } from '../../utils/constants'
-import { addCell } from '../addCell'
+import addCell from '../addCell'
 
-export const updateMergedCells = (cells) => {
+const updateMergedCells = (cells) => {
   let cloneCells = [...cells]
   let isMovingCells = false
 
   cloneCells = cloneCells.map((cell) => {
-    if (cell.state === statesCell.ENLARGE || cell.state === statesCell.DESTROING) {
+    if (cell.state === statesCell.ENLARGE || cell.state === statesCell.DESTROYING) {
       cell.value *= 2
     }
 
@@ -21,3 +21,5 @@ export const updateMergedCells = (cells) => {
 
   return isMovingCells ? addCell(cloneCells) : cloneCells
 }
+
+export default updateMergedCells

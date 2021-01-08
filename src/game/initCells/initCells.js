@@ -1,8 +1,8 @@
-import { createCell } from '../createCell'
+import createCell from '../createCell'
 import { gameSettings } from '../../utils/constants'
-import { randomRange } from '../../utils/randomRange'
+import randomRange from '../../utils/randomRange'
 
-export const initCells = () => {
+const initCells = () => {
   const randomCell = () => randomRange(0, gameSettings.gameSize - 1)
 
   const x = [randomCell(), randomCell()]
@@ -14,3 +14,5 @@ export const initCells = () => {
 
   return [createCell(x[0], y[0], 2), createCell(x[1], y[1], 2)]
 }
+
+export default initCells

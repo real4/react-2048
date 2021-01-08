@@ -13,7 +13,7 @@ const Layout = styled.div`
   margin: 0 auto;
 `
 
-export const Content = ({ children }) => (
+const Content = ({ children }) => (
   <Main>
     <Layout>{children}</Layout>
   </Main>
@@ -26,3 +26,5 @@ Content.propTypes = {
     PropTypes.string
   ]).isRequired
 }
+
+export default Content
