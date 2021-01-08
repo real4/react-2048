@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "React.js 2048 game",
   "main": "index.js",
-  "home": "https://offreal.github.io/react-2048",
+  "homepage": "https://offreal.github.io/react-2048",
   "author": "Sergey Shvets <justone128@gmail.com>",
   "license": "MIT",
   "browserslist": {
