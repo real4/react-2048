@@ -1,8 +1,8 @@
-import { createCell } from '../createCell'
+import createCell from '../createCell'
 import { gameSettings, statesCell } from '../../utils/constants'
-import { randomRange } from '../../utils/randomRange'
+import randomRange from '../../utils/randomRange'
 
-export const addCell = (cells) => {
+const addCell = (cells) => {
   const occupiedCoords = new Set()
 
   cells.forEach((cell) => {
@@ -33,3 +33,5 @@ export const addCell = (cells) => {
 
   return [...cells, newCell]
 }
+
+export default addCell

@@ -1,7 +1,7 @@
 import { statesCell } from '../../utils/constants'
-import { addCell } from '../addCell'
+import addCell from '../addCell'
 
-export const updateMergedCells = (cells) => {
+const updateMergedCells = (cells) => {
   let cloneCells = [...cells]
   let isMovingCells = false
 
@@ -21,3 +21,5 @@ export const updateMergedCells = (cells) => {
 
   return isMovingCells ? addCell(cloneCells) : cloneCells
 }
+
+export default updateMergedCells

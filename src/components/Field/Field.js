@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
 import { gameSettings, statesCell } from '../../utils/constants'
-import { getCellProps } from '../../utils/getCellProps'
+import getCellProps from '../../utils/getCellProps'
 
 const FieldWrapper = styled.div`
   position: relative;

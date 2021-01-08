@@ -1,1 +1,1 @@
-export { addCell } from './addCell'
+export { default } from './addCell'

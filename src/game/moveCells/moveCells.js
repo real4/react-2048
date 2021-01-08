@@ -1,4 +1,4 @@
-import { rotateMatrix } from '../../utils/rotateMatrix'
+import rotateMatrix from '../../utils/rotateMatrix'
 import { statesCell, gameSettings } from '../../utils/constants'
 
 function updateCell(x, y, cells) {
@@ -44,7 +44,7 @@ function arrayForEach(matrix, func) {
   )
 }
 
-export const moveCells = (cells, direction) => {
+const moveCells = (cells, direction) => {
   let cloneCells = [...cells]
 
   // create matrix with cells
@@ -85,3 +85,5 @@ export const moveCells = (cells, direction) => {
 
   return cloneCells
 }
+
+export default moveCells

@@ -1,1 +1,1 @@
-export { initCells } from './initCells'
+export { default } from './initCells'
