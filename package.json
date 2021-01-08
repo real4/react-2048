@@ -1,9 +1,9 @@
 {
-  "name": "react-2048game",
+  "name": "react-2048",
   "version": "1.0.0",
-  "description": "2048 game using the react.js library",
+  "description": "React.js 2048 game",
   "main": "index.js",
-  "repository": "https://github.com/jsreal/react-2048game",
+  "home": "https://offreal.github.io/react-2048",
   "author": "Sergey Shvets <justone128@gmail.com>",
   "license": "MIT",
   "browserslist": {
@@ -21,7 +21,8 @@
     "start": "webpack-dev-server --env.mode=development",
     "dev": "webpack --env.mode=development",
     "build": "webpack --env.mode=production",
-    "test": "jest --watch"
+    "test": "jest --watch",
+    "deploy": "yarn build && gh-pages -d build"
   },
   "devDependencies": {
     "@babel/cli": "^7.7.4",
@@ -52,6 +53,7 @@
   },
   "dependencies": {
     "core-js": "^3.4.3",
+    "gh-pages": "^3.1.0",
     "prop-types": "^15.7.2",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
