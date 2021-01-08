@@ -50,4 +50,4 @@ Use to publish the final build to github pages. Before submitting, you need to s
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
+This project is licensed under the MIT License - see the [LICENCE](LICENCE) file for details
